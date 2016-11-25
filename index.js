@@ -16,7 +16,7 @@ const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 const languageStrings = {
     'en': {
         translation: {
-            SKILL_NAME: 'Daily Wikipedia Featured Article',
+            SKILL_NAME: 'Daily Wiki',
             GET_ARTICLE_MESSAGE: "Today's article is: ",
             HELP_MESSAGE: "You can ask for today's featured wikipedia article.",
             HELP_REPROMPT: 'What can I help you with?',
@@ -31,11 +31,15 @@ const handlers = {
     },
     'GetArticleIntent': function () {
         // get today's article'
-        const articleTitle = ;
+        var query = new YQL('select * from html where url=\'https://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article\' and xpath=\'(//*[@id="mw-content-text"]//*[contains(@class,"MainPageBG")][1]//b/a)[1]\'');
 
-        // Create speech output
-        const speechOutput = this.t('GET_ARTICLE_MESSAGE') + articleTitle;
-        this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), articleTitle);
+        query.exec(function(err, data) {
+            var article = data.query.results.a.title;
+            
+            // Create speech output
+            const speechOutput = this.t('GET_ARTICLE_MESSAGE') + article;
+            this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), article);
+        });
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
