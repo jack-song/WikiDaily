@@ -8,8 +8,8 @@ p
 b
 a
 
-Query:
-"(//*[@id="mw-content-text"]//*[contains(@class,"MainPageBG")][1]//b/a)[1]"
+Selector:
+(//*[@id="mw-content-text"]//*[contains(@class,"MainPageBG")][1]//b/a)[1]
 
 Endpoint:
-"https://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article"
+https://en.wikipedia.org/wiki/Wikipedia:Today%27s_featured_article

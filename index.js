@@ -10,6 +10,7 @@
 
 const Alexa = require('alexa-sdk');
 const YQL = require('yql');
+const util = require('util');
 
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 
@@ -31,14 +32,16 @@ const handlers = {
     },
     'GetArticleIntent': function () {
         // get today's article'
-        var query = new YQL(util.format("select * from html where url='%s' and xpath='%s'", process.env.DW_ENDPOINT, process.env.DW_SELECTOR));
+        var that = this;
+        var selector = '(//*[@id="mw-content-text"]//*[contains(@class,"MainPageBG")][1]//b/a)[1]';
+        var query = new YQL(util.format("select * from html where url='%s' and xpath='%s'", process.env.DW_ENDPOINT, selector));
 
         query.exec(function(err, data) {
             var article = data.query.results.a.title;
             
             // Create speech output
-            const speechOutput = this.t('GET_ARTICLE_MESSAGE') + article;
-            this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), article);
+            const speechOutput = that.t('GET_ARTICLE_MESSAGE') + article;
+            that.emit(':tellWithCard', speechOutput, that.t('SKILL_NAME'), article);
         });
     },
     'AMAZON.HelpIntent': function () {
