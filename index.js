@@ -33,7 +33,7 @@ const handlers = {
     'GetArticleIntent': function () {
         // get today's article'
         var that = this;
-        var selector = '(//*[@id="mw-content-text"]//*[contains(@class,"MainPageBG")][1]//b/a)[1]';
+        var selector = '(//*[@id="mp-tfa"]//b/a)[1]';
         var query = new YQL(util.format("select * from html where url='%s' and xpath='%s'", process.env.DW_ENDPOINT, selector));
 
         query.exec(function(err, data) {
